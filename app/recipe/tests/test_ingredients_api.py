@@ -18,6 +18,10 @@ def create_user(email='user@example.com', password='testpass123'):
     """Create and return a user."""
     return get_user_model().objects.create(email=email, password=password)
 
+def detail_url(ingredient_id):
+    """Create and return a detail url for the ingredient."""
+    return reverse('recipe:ingredient-detail', args=[ingredient_id])
+
 class PublicIngredientsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
@@ -62,3 +66,26 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['name'], ingredient.name)
         self.assertEqual(response.data[0]['id'], ingredient.id)
+
+    def test_update_ingredient(self):
+        """Test updating an ingredient."""
+        ingredient = Ingredient.objects.create(user=self.user, name="Salt")
+
+        payload = {'name': "Pepper"}
+        url = detail_url(ingredient.id)
+        response = self.client.patch(url, payload)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        ingredient.refresh_from_db()
+        self.assertEqual(ingredient.name, payload['name'])
+
+    def test_delete_ingredient(self):
+        """Test deleting an ingredient."""
+        ingredient = Ingredient.objects.create(user=self.user, name="Pepper")
+
+        url = detail_url(ingredient.id)
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        ingredients = Ingredient.objects.filter(user=self.user)
+        self.assertFalse(ingredients.exists())
