@@ -1,7 +1,6 @@
 """
 Tests for the Django admin modifications.
 """
-from urllib import response
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -33,7 +32,7 @@ class AdminSiteTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_user_page(self):
-        """Test the create user page."""
+        """Test the create user page works."""
         url = reverse('admin:core_user_add')
         response = self.client.get(url)
 

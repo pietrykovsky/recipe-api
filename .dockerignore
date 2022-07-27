@@ -3,7 +3,7 @@
 .gitignore
 
 # docker
-.dockerfile
+.docker
 
 # python
 app/__pycache__/
@@ -11,5 +11,5 @@ app/*/__pycache__/
 app/*/*/__pycache__/
 app/*/*/*/__pycache__/
 .venv/
-.env.
+.env/
 venv/
