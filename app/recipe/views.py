@@ -31,12 +31,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        """Create a new recipe"""
+        """Create a new recipe."""
         serializer.save(user=self.request.user)
 
-    @action(methods=['POST'], detail=True, url_path='upload_image')
+    @action(methods=['POST'], detail=True, url_path='upload-image')
     def upload_image(self, request, pk=None):
-        """Upload an iamge to recipe."""
+        """Upload an image to recipe."""
         recipe = self.get_object()
         serializer = self.get_serializer(recipe, data=request.data)
 
@@ -59,6 +59,7 @@ class TagViewSet(BaseRecipeAttrViewSet):
     """Manage tags in the database."""
     serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
+
 class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the database."""
     serializer_class = serializers.IngredientSerializer

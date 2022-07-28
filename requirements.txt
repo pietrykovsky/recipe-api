@@ -6,3 +6,4 @@ sqlparse==0.4.2
 psycopg2>=2.8.6
 drf-spectacular>=0.15.1
 Pillow>=8.2.0
+flake8>=3.9.2
